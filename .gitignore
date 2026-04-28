@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+
+# Xcode user state
+*.xcuserstate
+*.xcscmblueprint
+xcuserdata/
+
+# Xcode build products
+build/
+DerivedData/
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Package.resolved
+
+# CocoaPods / Carthage, если вдруг занесёт
+Pods/
+Carthage/Build/
+
+# App archives
+*.xcarchive
+*.dSYM.zip
+*.dSYM
+
+# Secrets / local config
+.env
+.env.*
+*.local
