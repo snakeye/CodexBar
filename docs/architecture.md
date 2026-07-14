@@ -21,7 +21,7 @@ CodexBar is an unofficial utility and is not affiliated with, endorsed by, or sp
 1. App starts and `CodexUsageModel` initializes.
 2. Model loads auth values from local ChatGPT Codex auth JSON.
 3. Model sends request to the Codex usage endpoint with required headers.
-4. Response is decoded into usage window structures.
+4. Response is decoded from `rate_limit.primary_window` and mapped to the weekly usage display.
 5. UI-bound published properties update on the main actor.
 6. Menu bar label and dropdown view refresh automatically.
 

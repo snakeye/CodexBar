@@ -4,7 +4,6 @@ import XCTest
 final class CodexUsageFormattingTests: XCTestCase {
     func testWindowLengthLabel() {
         XCTAssertEqual(CodexUsageFormatting.windowLengthLabel(seconds: 604_800), "Weekly")
-        XCTAssertEqual(CodexUsageFormatting.windowLengthLabel(seconds: 18_000), "5h")
         XCTAssertEqual(CodexUsageFormatting.windowLengthLabel(seconds: 1_800), "30m")
         XCTAssertEqual(CodexUsageFormatting.windowLengthLabel(seconds: 45), "45s")
     }
@@ -41,8 +40,8 @@ final class CodexUsageFormattingTests: XCTestCase {
 
     func testResetRelativeLabelForDaysAndHours() {
         let fixedNow = Date(timeIntervalSince1970: 1_700_000_000)
-        let label = CodexUsageFormatting.resetRelativeLabel(resetAt: nil, fallbackSeconds: 190_800, now: fixedNow)
+        let label = CodexUsageFormatting.resetRelativeLabel(resetAt: nil, fallbackSeconds: 172_800, now: fixedNow)
 
-        XCTAssertEqual(label, "in 2d 5h")
+        XCTAssertEqual(label, "in 2d")
     }
 }

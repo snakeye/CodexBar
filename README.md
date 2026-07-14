@@ -1,10 +1,10 @@
 # CodexBar
 
-CodexBar is a tiny macOS menu bar app that shows remaining Codex usage limits from your local ChatGPT Codex auth.
+CodexBar is a tiny macOS menu bar app that shows the remaining weekly Codex usage limit from your local ChatGPT Codex auth.
 
 > Unofficial utility. Not affiliated with, endorsed by, or sponsored by OpenAI.
 
-It reads your local Codex auth data, calls the usage endpoint, and displays short-window and weekly remaining percentages directly in the menu bar.
+It reads your local Codex auth data, calls the usage endpoint, and displays the weekly remaining percentage directly in the menu bar.
 
 Status: experimental personal-use MVP.
 
@@ -12,7 +12,7 @@ Status: experimental personal-use MVP.
 
 ## Features
 
-- Menu bar status with compact remaining values (`short/weekly`)
+- Menu bar status with the weekly remaining value
 - Dropdown details: reset times, last update timestamp
 - Manual refresh button
 - Automatic refresh every 5 minutes
@@ -58,6 +58,7 @@ The app does not manage login flows; if auth is missing or expired, refresh will
 
 - The Codex usage endpoint is unofficial and may change or stop working.
 - The app depends on the current Codex usage API behavior and required headers.
+- The current build supports the current `rate_limit.primary_window` payload shape.
 - Error feedback is intentionally compact in this MVP.
 
 ## Documentation

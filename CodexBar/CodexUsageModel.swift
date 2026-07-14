@@ -4,13 +4,9 @@ import Foundation
 @MainActor
 final class CodexUsageModel: ObservableObject {
     @Published var title = "…"
-    @Published var shortLabel = "5h"
     @Published var weeklyLabel = "Weekly"
-    @Published var shortLeft = 0
     @Published var weeklyLeft = 0
-    @Published var shortResetRelative = "unknown"
     @Published var weeklyResetRelative = "unknown"
-    @Published var shortResetAbsolute = "unknown"
     @Published var weeklyResetAbsolute = "unknown"
     @Published var updatedAt = "never"
     @Published private(set) var isRefreshing = false
@@ -50,13 +46,9 @@ final class CodexUsageModel: ObservableObject {
             let presentation = CodexUsagePresentation.make(from: usage, now: now)
 
             title = presentation.title
-            shortLabel = presentation.shortWindow.label
             weeklyLabel = presentation.weeklyWindow.label
-            shortLeft = presentation.shortWindow.leftPercent
             weeklyLeft = presentation.weeklyWindow.leftPercent
-            shortResetRelative = presentation.shortWindow.resetRelativeLabel
             weeklyResetRelative = presentation.weeklyWindow.resetRelativeLabel
-            shortResetAbsolute = presentation.shortWindow.resetAbsoluteLabel
             weeklyResetAbsolute = presentation.weeklyWindow.resetAbsoluteLabel
             updatedAt = Self.timeFormatter.string(from: now)
         } catch let error as CodexUsageError {

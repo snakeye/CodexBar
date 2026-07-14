@@ -2,8 +2,7 @@ import Foundation
 
 nonisolated struct CodexUsage {
     let limitReached: Bool
-    let primaryWindow: UsageWindow
-    let secondaryWindow: UsageWindow
+    let weeklyWindow: UsageWindow
 }
 
 nonisolated struct UsageWindow {
@@ -90,8 +89,7 @@ actor CodexUsageService {
         let decoded = try JSONDecoder().decode(UsageResponse.self, from: data)
         return CodexUsage(
             limitReached: decoded.rateLimit.limitReached,
-            primaryWindow: decoded.rateLimit.primaryWindow,
-            secondaryWindow: decoded.rateLimit.secondaryWindow
+            weeklyWindow: decoded.rateLimit.primaryWindow
         )
     }
 
@@ -153,12 +151,18 @@ nonisolated private struct UsageResponse: Decodable {
 nonisolated private struct RateLimit: Decodable {
     let limitReached: Bool
     let primaryWindow: UsageWindow
-    let secondaryWindow: UsageWindow
 
     enum CodingKeys: String, CodingKey {
+        case allowed
         case limitReached = "limit_reached"
         case primaryWindow = "primary_window"
-        case secondaryWindow = "secondary_window"
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        _ = try container.decode(Bool.self, forKey: .allowed)
+        limitReached = try container.decode(Bool.self, forKey: .limitReached)
+        primaryWindow = try container.decode(UsageWindow.self, forKey: .primaryWindow)
     }
 }
 

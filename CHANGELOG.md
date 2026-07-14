@@ -10,6 +10,7 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 
 - Updated documentation wording to consistently describe local ChatGPT Codex auth usage.
 - Added explicit disclaimer text in docs that CodexBar is unofficial and not affiliated with OpenAI.
+- Updated app and docs for the weekly-only `rate_limit.primary_window` payload.
 
 ## [0.1.0] - 2026-04-27
 
