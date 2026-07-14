@@ -9,7 +9,7 @@ If auth is fine, the Codex usage response shape may have changed again; this bui
 
 ## Unauthorized or 401 responses
 
-Your token may be expired or invalid. Re-authenticate with your Codex/ChatGPT tooling to refresh local tokens, then use Refresh in the app.
+Your token may be expired or invalid. CodexBar will try one silent refresh first. If that fails, re-authenticate with your Codex/ChatGPT tooling to refresh local tokens, then use Refresh in the app.
 
 ## Values look wrong for your account
 

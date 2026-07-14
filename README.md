@@ -44,6 +44,8 @@ CodexBar reads credentials from your local Codex CLI auth file:
 
 The app does not manage login flows; if auth is missing or expired, refresh will fail until credentials are valid again.
 
+If the access token expires, CodexBar will try one silent refresh using the local `refresh_token` before showing an error.
+
 ## Privacy & Security
 
 - CodexBar reads auth from your local `~/.codex/auth.json` file.
