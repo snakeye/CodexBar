@@ -3,7 +3,7 @@ import XCTest
 @testable import CodexBar
 
 final class CodexUsageServiceTests: XCTestCase {
-    func testDecodeUsageParsesWeeklyPayload() throws {
+    func testDecodeUsageParsesBothWindows() throws {
         let json = """
         {
           "user_id": "user-CIoP9UPhy7kOI3TviGJlBlvz",
@@ -14,12 +14,17 @@ final class CodexUsageServiceTests: XCTestCase {
             "allowed": true,
             "limit_reached": false,
             "primary_window": {
-              "used_percent": 1,
-              "limit_window_seconds": 604800,
-              "reset_after_seconds": 604045,
-              "reset_at": 1784621352
+              "used_percent": 42,
+              "limit_window_seconds": 18000,
+              "reset_after_seconds": 1200,
+              "reset_at": 1710000000
             },
-            "secondary_window": null
+            "secondary_window": {
+              "used_percent": 10,
+              "limit_window_seconds": 604800,
+              "reset_after_seconds": 7200,
+              "reset_at": null
+            }
           },
           "code_review_rate_limit": null,
           "additional_rate_limits": null,
@@ -46,10 +51,14 @@ final class CodexUsageServiceTests: XCTestCase {
         let usage = try CodexUsageService.decodeUsage(from: Data(json.utf8))
 
         XCTAssertFalse(usage.limitReached)
-        XCTAssertEqual(usage.weeklyWindow.usedPercent, 1)
+        XCTAssertEqual(usage.shortWindow.usedPercent, 42)
+        XCTAssertEqual(usage.shortWindow.limitWindowSeconds, 18_000)
+        XCTAssertEqual(usage.shortWindow.resetAfterSeconds, 1_200)
+        XCTAssertEqual(usage.shortWindow.resetAt, 1_710_000_000)
+        XCTAssertEqual(usage.weeklyWindow.usedPercent, 10)
         XCTAssertEqual(usage.weeklyWindow.limitWindowSeconds, 604_800)
-        XCTAssertEqual(usage.weeklyWindow.resetAfterSeconds, 604_045)
-        XCTAssertEqual(usage.weeklyWindow.resetAt, 1_784_621_352)
+        XCTAssertEqual(usage.weeklyWindow.resetAfterSeconds, 7_200)
+        XCTAssertNil(usage.weeklyWindow.resetAt)
     }
 
     func testDecodeUsageThrowsOnInvalidPayload() {
@@ -118,7 +127,8 @@ final class CodexUsageServiceTests: XCTestCase {
         let service = CodexUsageService(session: session, authURL: authURL)
         let usage = try await service.fetchUsage()
 
-        XCTAssertEqual(usage.weeklyWindow.usedPercent, 11)
+        XCTAssertEqual(usage.shortWindow.usedPercent, 11)
+        XCTAssertEqual(usage.weeklyWindow.usedPercent, 10)
 
         let persisted = try readJSON(at: authURL)
         let tokens = persisted["tokens"] as? [String: Any]
@@ -235,11 +245,16 @@ private extension CodexUsageServiceTests {
             "limit_reached": false,
             "primary_window": {
               "used_percent": \(usedPercent),
-              "limit_window_seconds": 604800,
-              "reset_after_seconds": 604045,
-              "reset_at": 1784621352
+              "limit_window_seconds": 18000,
+              "reset_after_seconds": 1200,
+              "reset_at": 1710000000
             },
-            "secondary_window": null
+            "secondary_window": {
+              "used_percent": 10,
+              "limit_window_seconds": 604800,
+              "reset_after_seconds": 7200,
+              "reset_at": null
+            }
           }
         }
         """

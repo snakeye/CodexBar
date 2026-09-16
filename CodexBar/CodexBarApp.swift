@@ -68,18 +68,27 @@ struct CodexBarApp: App {
             VStack(alignment: .leading, spacing: 10) {
                 HStack(spacing: 8) {
                     Image(systemName: "gauge.with.dots.needle.67percent")
-                    Text("Weekly limit remaining")
+                    Text("Rate limits remaining")
                         .font(.headline)
                 }
 
                 Divider()
 
-                UsageWindowRow(
-                    label: usage.weeklyLabel,
-                    leftPercent: usage.weeklyLeft,
-                    resetRelativeLabel: usage.weeklyResetRelative,
-                    resetAbsoluteLabel: usage.weeklyResetAbsolute
-                )
+                VStack(alignment: .leading, spacing: 8) {
+                    UsageWindowRow(
+                        label: usage.shortLabel,
+                        leftPercent: usage.shortLeft,
+                        resetRelativeLabel: usage.shortResetRelative,
+                        resetAbsoluteLabel: usage.shortResetAbsolute
+                    )
+
+                    UsageWindowRow(
+                        label: usage.weeklyLabel,
+                        leftPercent: usage.weeklyLeft,
+                        resetRelativeLabel: usage.weeklyResetRelative,
+                        resetAbsoluteLabel: usage.weeklyResetAbsolute
+                    )
+                }
 
                 HStack {
                     Text("Updated")

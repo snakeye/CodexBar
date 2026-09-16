@@ -6,6 +6,12 @@ The format is based on Keep a Changelog and this project follows Semantic Versio
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-16
+
+### Fixed
+
+- Restored display and parsing of five-hour and weekly Codex rate limits.
+
 ## [0.2.0] - 2026-07-14
 
 ### Changed

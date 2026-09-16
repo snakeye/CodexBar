@@ -9,23 +9,30 @@ struct UsageWindowPresentation {
 
 struct CodexUsagePresentation {
     let title: String
+    let shortWindow: UsageWindowPresentation
     let weeklyWindow: UsageWindowPresentation
 
     static func make(from usage: CodexUsage, now: Date = Date()) -> CodexUsagePresentation {
+        let shortWindow = makeWindowPresentation(from: usage.shortWindow, now: now)
         let weeklyWindow = makeWindowPresentation(from: usage.weeklyWindow, now: now)
 
         return CodexUsagePresentation(
-            title: makeTitle(limitReached: usage.limitReached, weeklyLeft: weeklyWindow.leftPercent),
+            title: makeTitle(
+                limitReached: usage.limitReached,
+                shortLeft: shortWindow.leftPercent,
+                weeklyLeft: weeklyWindow.leftPercent
+            ),
+            shortWindow: shortWindow,
             weeklyWindow: weeklyWindow
         )
     }
 
-    static func makeTitle(limitReached: Bool, weeklyLeft: Int) -> String {
+    static func makeTitle(limitReached: Bool, shortLeft: Int, weeklyLeft: Int) -> String {
         if limitReached {
             return "LIMIT"
         }
 
-        return "\(weeklyLeft)"
+        return "\(shortLeft)/\(weeklyLeft)"
     }
 
     static func makeErrorTitle(for error: CodexUsageError) -> String {
